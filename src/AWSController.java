@@ -1,19 +1,11 @@
-import java.security.SecureRandom;
-import java.sql.Time;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Random;
 
-import org.joda.time.DateTime;
-import org.springframework.util.comparator.ComparableComparator;
 
 import com.amazonaws.auth.BasicAWSCredentials;
-import com.amazonaws.auth.policy.Action;
-import com.amazonaws.auth.policy.Resource;
 import com.amazonaws.regions.Region;
 import com.amazonaws.regions.Regions;
-import com.amazonaws.services.autoscaling.model.Alarm;
 import com.amazonaws.services.cloudwatch.AmazonCloudWatchClient;
 import com.amazonaws.services.cloudwatch.model.ComparisonOperator;
 import com.amazonaws.services.cloudwatch.model.Dimension;
@@ -26,7 +18,6 @@ import com.amazonaws.services.ec2.model.Instance;
 import com.amazonaws.services.ec2.model.InstanceType;
 import com.amazonaws.services.ec2.model.Reservation;
 import com.amazonaws.services.ec2.model.RunInstancesRequest;
-import com.amazonaws.services.ec2.model.RunInstancesResult;
 import com.amazonaws.services.ec2.model.TerminateInstancesRequest;
 
 public final class AWSController {
