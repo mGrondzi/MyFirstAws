@@ -61,7 +61,7 @@ public final class AWSController {
 		              .withNamespace("AWS/EC2")
 		              .withComparisonOperator(ComparisonOperator.LessThanOrEqualToThreshold)
 		              .withDimensions(dimension)
-		              .withAlarmActions("arn:aws:sns:eu-central-1:ec2:terminate")
+		              .withAlarmActions("arn:aws:swf:eu-central-1:ec2:terminate")
 		              .withEvaluationPeriods(1)
 		              .withActionsEnabled(true));
 			
