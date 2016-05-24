@@ -3,6 +3,7 @@ import java.util.Date;
 import java.util.List;
 
 import com.amazonaws.auth.BasicAWSCredentials;
+import com.amazonaws.auth.profile.ProfileCredentialsProvider;
 import com.amazonaws.regions.Region;
 import com.amazonaws.regions.Regions;
 import com.amazonaws.services.cloudwatch.AmazonCloudWatchClient;
@@ -24,8 +25,9 @@ public final class AWSController {
 		
 		private AWSController()
 		{
-			BasicAWSCredentials awsCreds = new BasicAWSCredentials(AWSAccessKey.getNewAccessKey().getAcccessKey(), SecretKey.getNewSecretKey().getSecretKey());
-			ec2 = new AmazonEC2Client(awsCreds);
+			ec2 = new AmazonEC2Client(new ProfileCredentialsProvider());			
+			//Need to be used on ec2 Instances
+			//ec2 = new AmazonEC2Client(new InstanceProfileCredentialsProvider());
 			Region euCentral = Region.getRegion(Regions.EU_CENTRAL_1);
 	        ec2.setRegion(euCentral);
 		}       
