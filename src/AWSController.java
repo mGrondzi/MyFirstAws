@@ -2,7 +2,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-
+import com.amazonaws.auth.AWSCredentialsProvider;
+import com.amazonaws.auth.AWSSessionCredentialsProvider;
 import com.amazonaws.auth.BasicAWSCredentials;
 import com.amazonaws.regions.Region;
 import com.amazonaws.regions.Regions;
@@ -22,10 +23,11 @@ import com.amazonaws.services.ec2.model.TerminateInstancesRequest;
 
 public final class AWSController {
 		private final AmazonEC2 ec2;
+		private final BasicAWSCredentials awsCreds;
 		
 		public AWSController()
 		{
-			BasicAWSCredentials awsCreds = new BasicAWSCredentials("AKIAI7IQ4DHTSOR2GOZQ", "MNyYNehG/m/OYSVw4FmqiLRSmNv1AEFor4apjKxi");
+			awsCreds = new BasicAWSCredentials("AKIAI7IQ4DHTSOR2GOZQ", "MNyYNehG/m/OYSVw4FmqiLRSmNv1AEFor4apjKxi");
 			ec2 = new AmazonEC2Client(awsCreds);
 			Region euCentral = Region.getRegion(Regions.EU_CENTRAL_1);
 	        ec2.setRegion(euCentral);
@@ -49,7 +51,7 @@ public final class AWSController {
 			cloudWatch.setEndpoint("monitoring.eu-central-1.amazonaws.com");
 			
 			Dimension dimension = new Dimension();
-			dimension.setName("instanceId");
+			dimension.setName("InstanceId");
 			dimension.setValue(instanceId);
 			
 			cloudWatch.putMetricAlarm(new PutMetricAlarmRequest()
@@ -61,7 +63,7 @@ public final class AWSController {
 		              .withNamespace("AWS/EC2")
 		              .withComparisonOperator(ComparisonOperator.LessThanOrEqualToThreshold)
 		              .withDimensions(dimension)
-		              .withAlarmActions("arn:aws:swf:eu-central-1:ec2:terminate")
+		              .withAlarmActions("arn:aws:automate:eu-central-1:ec2:terminate")
 		              .withEvaluationPeriods(1)
 		              .withActionsEnabled(true));
 			
@@ -115,6 +117,14 @@ public final class AWSController {
 			}
 			System.out.println(oldest);
 		}
+		
+//		void TerminateAllOver1Hour()
+//		{
+//			Date curDate = new Date();
+//			for (Instance instance : this.getAllActiveInstances()) {
+//				if(curDate - instance.getLaunchTime() > 10)
+//			}
+//		}
 		
 		void TerminateAllInstance()
 		{
