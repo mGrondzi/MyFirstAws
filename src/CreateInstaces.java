@@ -7,7 +7,7 @@ public class CreateInstaces {
 		// TODO Auto-generated method stub
 		AWSController controller = AWSController.getNewAWSControllerInstance();
         
-		//controller.runNewCheckstyleInstances(2);
+		//controller.runNewCheckstyleInstances(10);
 		//controller.TerminateAllInstance();
         controller.UpdateAlarms();
 		for (Instance instance : controller.getAllActiveInstances()) {
