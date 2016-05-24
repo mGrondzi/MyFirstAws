@@ -29,7 +29,7 @@ public final class AWSController {
 			//Need to be used on ec2 Instances
 			//ec2 = new AmazonEC2Client(new InstanceProfileCredentialsProvider());
 			Region euCentral = Region.getRegion(Regions.EU_CENTRAL_1);
-	        ec2.setRegion(euCentral);
+			ec2.setRegion(euCentral);
 		}       
 		
 		public static AWSController getNewAWSControllerInstance()
@@ -54,28 +54,28 @@ public final class AWSController {
 			dimension.setValue(instanceId);
 			
 			cloudWatch.putMetricAlarm(new PutMetricAlarmRequest()
-					.withAlarmName(instanceId)
-					.withStatistic(Statistic.Average)
-					.withThreshold(20.00)
-					.withPeriod(60)
-					.withMetricName("CPUUtilization")
-					.withNamespace("AWS/EC2")
-					.withComparisonOperator(ComparisonOperator.LessThanOrEqualToThreshold)
-					.withDimensions(dimension)
-					.withAlarmActions("arn:aws:automate:eu-central-1:ec2:terminate")
-					.withEvaluationPeriods(1)
-					.withActionsEnabled(true));		
+				.withAlarmName(instanceId)
+				.withStatistic(Statistic.Average)
+				.withThreshold(20.00)
+				.withPeriod(60)
+				.withMetricName("CPUUtilization")
+				.withNamespace("AWS/EC2")
+				.withComparisonOperator(ComparisonOperator.LessThanOrEqualToThreshold)
+				.withDimensions(dimension)
+				.withAlarmActions("arn:aws:automate:eu-central-1:ec2:terminate")
+				.withEvaluationPeriods(1)
+				.withActionsEnabled(true));		
 		}
 		
 		void runNewCheckstyleInstances(int amountInstances)
 		{
 			// Initializes a Spot Instance Request
 			RunInstancesRequest runInstancesRequest = new RunInstancesRequest() //
-	        		.withInstanceType(InstanceType.T2Micro.toString()) //
-	        		.withImageId("ami-d3c022bc") //
-	        		.withMinCount(amountInstances) //
-	        		.withMaxCount(amountInstances)
-	        		.withMonitoring(true);
+	        	.withInstanceType(InstanceType.T2Micro.toString()) //
+	        	.withImageId("ami-d3c022bc") //
+	        	.withMinCount(amountInstances) //
+	        	.withMaxCount(amountInstances)
+	        	.withMonitoring(true);
 			        //.withSecurityGroupIds("accept-all") //
 		            //.withKeyName("cleclerc");
 			ec2.runInstances(runInstancesRequest);
