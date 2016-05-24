@@ -67,9 +67,10 @@ public final class AWSController {
 					.withActionsEnabled(true));		
 		}
 		
-		void runNewCheckstyleInstances(int amountInstances){
+		void runNewCheckstyleInstances(int amountInstances)
+		{
 			// Initializes a Spot Instance Request
-	        RunInstancesRequest runInstancesRequest = new RunInstancesRequest() //
+			RunInstancesRequest runInstancesRequest = new RunInstancesRequest() //
 	        		.withInstanceType(InstanceType.T2Micro.toString()) //
 	        		.withImageId("ami-d3c022bc") //
 	        		.withMinCount(amountInstances) //
@@ -77,7 +78,7 @@ public final class AWSController {
 	        		.withMonitoring(true);
 			        //.withSecurityGroupIds("accept-all") //
 		            //.withKeyName("cleclerc");
-	        ec2.runInstances(runInstancesRequest);
+			ec2.runInstances(runInstancesRequest);
 		}
 		
 		List<Instance> getAllInstances()
