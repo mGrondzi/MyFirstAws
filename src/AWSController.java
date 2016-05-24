@@ -2,8 +2,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import com.amazonaws.auth.AWSCredentialsProvider;
-import com.amazonaws.auth.AWSSessionCredentialsProvider;
 import com.amazonaws.auth.BasicAWSCredentials;
 import com.amazonaws.regions.Region;
 import com.amazonaws.regions.Regions;
@@ -23,11 +21,10 @@ import com.amazonaws.services.ec2.model.TerminateInstancesRequest;
 
 public final class AWSController {
 		private final AmazonEC2 ec2;
-		private final BasicAWSCredentials awsCreds;
 		
-		public AWSController()
+		private AWSController()
 		{
-			awsCreds = new BasicAWSCredentials("AKIAI7IQ4DHTSOR2GOZQ", "MNyYNehG/m/OYSVw4FmqiLRSmNv1AEFor4apjKxi");
+			BasicAWSCredentials awsCreds = new BasicAWSCredentials(AWSAccessKey.getNewAccessKey().getAcccessKey(), SecretKey.getNewSecretKey().getSecretKey());
 			ec2 = new AmazonEC2Client(awsCreds);
 			Region euCentral = Region.getRegion(Regions.EU_CENTRAL_1);
 	        ec2.setRegion(euCentral);
@@ -56,27 +53,26 @@ public final class AWSController {
 			
 			cloudWatch.putMetricAlarm(new PutMetricAlarmRequest()
 					.withAlarmName(instanceId)
-		              .withStatistic(Statistic.Average)
-		              .withThreshold(20.00)
-		              .withPeriod(60)
-		              .withMetricName("CPUUtilization")
-		              .withNamespace("AWS/EC2")
-		              .withComparisonOperator(ComparisonOperator.LessThanOrEqualToThreshold)
-		              .withDimensions(dimension)
-		              .withAlarmActions("arn:aws:automate:eu-central-1:ec2:terminate")
-		              .withEvaluationPeriods(1)
-		              .withActionsEnabled(true));
-			
+					.withStatistic(Statistic.Average)
+					.withThreshold(20.00)
+					.withPeriod(60)
+					.withMetricName("CPUUtilization")
+					.withNamespace("AWS/EC2")
+					.withComparisonOperator(ComparisonOperator.LessThanOrEqualToThreshold)
+					.withDimensions(dimension)
+					.withAlarmActions("arn:aws:automate:eu-central-1:ec2:terminate")
+					.withEvaluationPeriods(1)
+					.withActionsEnabled(true));		
 		}
 		
 		void runNewCheckstyleInstances(int amountInstances){
 			// Initializes a Spot Instance Request
 	        RunInstancesRequest runInstancesRequest = new RunInstancesRequest() //
-	                .withInstanceType(InstanceType.T2Micro.toString()) //
-	                .withImageId("ami-d3c022bc") //
-	                .withMinCount(amountInstances) //
-	                .withMaxCount(amountInstances)
-	                .withMonitoring(true);
+	        		.withInstanceType(InstanceType.T2Micro.toString()) //
+	        		.withImageId("ami-d3c022bc") //
+	        		.withMinCount(amountInstances) //
+	        		.withMaxCount(amountInstances)
+	        		.withMonitoring(true);
 			        //.withSecurityGroupIds("accept-all") //
 		            //.withKeyName("cleclerc");
 	        ec2.runInstances(runInstancesRequest);
@@ -98,7 +94,7 @@ public final class AWSController {
 		{
 			List<Instance> instances = new ArrayList();
 			for (Instance instance : this.getAllInstances()) {
-				if(instance.getState().getCode()==16)
+				if(instance.getState().getCode()==16 || instance.getState().getCode()==0)
 				{
 					instances.add(instance);
 				}

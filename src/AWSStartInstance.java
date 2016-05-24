@@ -1,13 +1,13 @@
 import com.amazonaws.services.ec2.model.Instance;
 
 
-public class CreateInstaces {
+public class AWSStartInstance {
 	
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		AWSController controller = AWSController.getNewAWSControllerInstance();
         
-		//controller.runNewCheckstyleInstances(10);
+		controller.runNewCheckstyleInstances(10);
 		//controller.TerminateAllInstance();
         controller.UpdateAlarms();
 		for (Instance instance : controller.getAllActiveInstances()) {
